@@ -1,0 +1,219 @@
+# Expense Analysis with NumPy
+
+## Overview
+A CLI application that analyzes expense data using NumPy arrays. Demonstrates how to structure financial data as 2D arrays and perform statistical analysis using vectorized operations.
+
+## Problem Statement
+Expense tracking generates data, but extracting insights requires analysis. This project converts raw expense records into NumPy arrays and uses array operations to answer questions like "Which category costs most?" and "What are my spending trends?"
+
+## Features
+
+### Core Analytics
+- **Daily Totals** - Spending per day
+- **Category Totals** - Aggregate by category
+- **Statistics** - Mean, variance, std deviation, min/max
+- **Category Percentages** - Relative spending distribution
+- **Top Expenses** - Most expensive days
+- **Monthly Trends** - Spending by month
+- **Date Filtering** - Analyze specific periods
+
+### Data Structure
+2D NumPy array where:
+- Rows = Days
+- Columns = Categories  
+- Values = Amount spent
+- Missing data = 0
+
+## How to Run
+
+### Requirements
+```bash
+pip install numpy
+```
+
+### Quick Start
+```bash
+python test_loader.py      # Test data loading
+python test_analytics.py   # Test analytics
+python main.py            # Run application
+```
+
+### Menu
+```
+1. Load Expense Data
+2. View Spending Summary
+3. Category-wise Analysis
+4. Find Most Expensive Days
+5. Monthly Spending Trend
+6. Exit
+```
+
+## Project Structure
+```
+├── data_loader.py       # Load CSV → NumPy array
+├── analytics.py         # Analysis functions
+├── main.py             # CLI interface
+├── npprj.txt           # Expense data
+└── README.md
+```
+
+## Data Format
+
+**Input (`npprj.txt`):**
+```
+2025-01-03,food,220
+2025-01-05,fuel,400
+2025-01-15,rent,15000
+```
+
+**Internal (NumPy Array):**
+```
+         food  fuel  rent  ...
+Day 1    220    0     0
+Day 2     0    400    0
+Day 3     0     0   15000
+```
+
+## NumPy Concepts Applied
+
+### 1. Multi-dimensional Arrays
+Represent tabular data as 2D arrays (days × categories).
+
+### 2. Axis-based Operations
+```python
+daily_totals = expenses.sum(axis=1)      # Sum across columns
+category_totals = expenses.sum(axis=0)   # Sum across rows
+```
+**Learning:** `axis=0` = vertical, `axis=1` = horizontal
+
+### 3. Broadcasting
+```python
+percentages = (category_totals / total) * 100  # Auto-broadcasts
+```
+**Learning:** Operations scale automatically across different shapes
+
+### 4. Vectorization
+No loops needed:
+```python
+mean = expenses.mean()           # Instead of manual loop
+std = expenses.std()
+```
+
+### 5. Boolean Indexing
+```python
+non_zero = expenses[expenses > 0]  # Filter without loops
+```
+
+### 6. Sorting & Ranking
+```python
+top_indices = np.argsort(daily_sums)[-5:]  # Top 5 days
+```
+
+### 7. Built-in Statistics
+```python
+stats = {
+    'mean': expenses.mean(),
+    'std': expenses.std(),
+    'var': expenses.var()
+}
+```
+
+## Key Functions
+
+**`data_loader.py`** - Parse CSV → structured 2D array  
+**`analytics.py`** - Statistical functions using NumPy:
+- `daily_totals()` - Per-day sums
+- `category_totals()` - Per-category sums
+- `overall_statistics()` - Complete stats
+- `category_percentages()` - Relative spending
+- `most_expensive_days()` - Top N days
+
+## What I Learned
+
+### Technical Skills
+1. **Array Structuring** - Transform unstructured data into 2D arrays
+2. **Axis Operations** - Understanding `axis=0` vs `axis=1`
+3. **Broadcasting** - Automatic scaling eliminates loops
+4. **Vectorization** - Faster, cleaner than manual iteration
+
+### Key Insights
+- Real-world tabular data maps naturally to arrays
+- NumPy operations answer business questions directly
+- Vectorized code is both faster and more readable
+- Statistical analysis emerges naturally from array operations
+
+### Code Organization
+- Modular design (separate loading, analysis, interface)
+- Single responsibility per function
+- Easy to test components independently
+
+## Challenges & Solutions
+
+**Challenge 1:** `np.zeros()` syntax  
+**Solution:** Use tuple: `np.zeros((rows, cols))` not `np.zeros(rows, cols)`
+
+**Challenge 2:** Axis confusion  
+**Solution:** Visualize: `axis=0` = "down rows", `axis=1` = "across columns"
+
+**Challenge 3:** Sparse data (missing expenses)  
+**Solution:** Represent missing as zeros
+
+**Challenge 4:** Grouping by month  
+**Solution:** Extract `YYYY-MM` substring from dates
+
+## Why This Matters for AI/ML
+
+### Foundation
+- **pandas** builds on NumPy
+- **scikit-learn** uses NumPy arrays
+- **TensorFlow/PyTorch** have similar concepts
+
+### Efficiency
+- ML processes millions of data points
+- Vectorization = orders of magnitude faster
+- Understanding NumPy = understanding ML internals
+
+### Data Representation
+- Images = 3D arrays (height × width × RGB)
+- Text embeddings = 2D arrays (words × dimensions)
+- Time series = 2D arrays (time × features)
+
+This project builds intuition using familiar expense data.
+
+## Sample Output
+```
+Data loaded: 108 days, 9 categories
+
+--- SPENDING SUMMARY ---
+Total:     $286,980.00
+Avg daily: $2,657.22
+Std dev:   $4,532.18
+
+--- CATEGORY ANALYSIS ---
+rent          $180,000.00  62.72%
+food           $31,820.00  11.09%
+shopping       $23,400.00   8.15%
+travel         $14,400.00   5.02%
+utilities      $13,030.00   4.54%
+```
+
+## Key Takeaways
+
+**Core Lesson:** NumPy changes how we work with numerical data. Think in terms of operations on entire arrays, not element-by-element loops. This is fundamental to data science and ML.
+
+**Progression:**
+- Previous projects: CRUD with files
+- This project: Data analysis with arrays
+- Next step: pandas, scikit-learn (build on NumPy)
+
+## Future Enhancements
+- Visualization with matplotlib
+- Spending forecasts
+- Budget alerts
+- Multi-currency support
+- Anomaly detection
+
+---
+
+**Course:** AI/ML Foundation | **Focus:** NumPy Data Analysis  
+**Concepts:** Arrays, Vectorization, Broadcasting, Statistics
